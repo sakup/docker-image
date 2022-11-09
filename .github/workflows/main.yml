@@ -24,10 +24,13 @@ jobs:
         with:
           dir_names: "true"
           
-    
-      - name: List json with all changed files
+      - name: List with all changed files
         run: |
           echo ${{ steps.changed-files.outputs.all_changed_files }} 
+
+      - name: List directories
+        run: |
+          echo ${{ steps.directories.outputs.all_changed_files }} 
 
 
   build:
@@ -47,6 +50,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build and push
         uses: docker/build-push-action@v3
+        echo ${{ matrix.file }}
         if: ${{ matrix.file }} != '.github/workflows/main.yml'
         with:
           context: .          
