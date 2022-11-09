@@ -50,7 +50,8 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build and push
         uses: docker/build-push-action@v3
-        echo ${{ matrix.file }}
+        run: |
+          echo ${{ matrix.file }}
         if: ${{ matrix.file }} != '.github/workflows/main.yml'
         with:
           context: .          
