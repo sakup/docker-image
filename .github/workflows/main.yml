@@ -31,7 +31,7 @@ jobs:
       - name: List with all changed files
         id: matrix
         run: |
-          echo "matrix={${{ steps.changed-files.outputs.all_changed_files }}}" >> $GITHUB_OUTPUT
+          echo "matrix=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
       - name: List directories
         run: |
