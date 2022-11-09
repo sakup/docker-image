@@ -15,26 +15,27 @@ jobs:
           fetch-depth: 0
 
       - name: Get changed files
-        id: matrix
+        id: changed-files
         uses: tj-actions/changed-files@v34
-        #with:
-          # dir_names: "true"
-          #json: "true"
+
+      - name: Get directories
+        id: directories
+        uses: tj-actions/changed-files@v34
+        with:
+          dir_names: "true"
+          
     
       - name: List json with all changed files
         run: |
           echo ${{ steps.changed-files.outputs.all_changed_files }} 
 
-      - name: List matirx
-        run: |
-          echo ${{ steps.changed-files.outputs.all_changed_files }} 
 
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        value: ${{fromJson(needs.setup.outputs.changed-files)}}
+        file: ${{ steps.changed-files.outputs.all_changed_files }} 
           
     steps:
       - name: Login to Docker Hub
@@ -46,10 +47,10 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build and push
         uses: docker/build-push-action@v3
-        if: ${{ matrix.value }} != '.github/workflows/main.yml'
+        if: ${{ matrix.file }} != '.github/workflows/main.yml'
         with:
           context: .          
-          file: ${{ matrix.value }}
+          file: ${{ matrix.file }}
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/alpine:latest
       # - name: List all changed files
