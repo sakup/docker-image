@@ -4,10 +4,15 @@ on:
   push:
     branches:
       - "master"
+    paths:
+      - '!.github/**'
 
 jobs:
   setup:
     runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,12 +30,14 @@ jobs:
           dir_names: "true"
           
       - name: List with all changed files
+        id: step1
         run: |
-          echo ${{ steps.changed-files.outputs.all_changed_files }} 
+          echo ${{ steps.changed-files.outputs.all_changed_files }} >> $GITHUB_OUTPUT
 
       - name: List directories
+        id: step2
         run: |
-          echo ${{ steps.directories.outputs.all_changed_files }} 
+          echo ${{ steps.directories.outputs.all_changed_files }} >> $GITHUB_OUTPUT
 
 
   build:
@@ -40,7 +47,7 @@ jobs:
     steps:
       - name: List with all changed files
         run: |
-          echo ${{ steps.changed-files.outputs.all_changed_files }} 
+          echo ${{ needs.setup.outputs.output1 }} 
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v2
