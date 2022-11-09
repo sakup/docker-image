@@ -1,3 +1,3 @@
 FROM hello-world
 
-ARG LABEL=v0.0.1
+ARG LABEL=v0.0.11
