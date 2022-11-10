@@ -41,7 +41,7 @@ jobs:
 
       - name: List from output
         run: |
-          echo ${{ steps.matrix.outputs }}
+          echo ${{ env.matrix }}
 
 
 
