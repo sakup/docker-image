@@ -18,16 +18,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v34
-        with:
-          json: "true"
+      # - name: Get changed files
+      #   id: changed-files
+      #   uses: tj-actions/changed-files@v34
+      #   with:
+      #     json: "true"
 
       - name: Get directories
         id: directories
         uses: tj-actions/changed-files@v34
         with:
+          json: "true"
           dir_names: "true"
           
       - name: List with all changed files
@@ -39,20 +40,24 @@ jobs:
         run: |
           echo ${{ steps.directories.outputs.all_changed_files }} 
 
-      - name: List from output
-        run: |
-          echo ${{ env.value }}
 
 
 
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
+    strategy:
+      output1:
+        value: ${{fromJson(needs.setup.outputs.output1)}}
 
     steps:
       - name: List with all changed files
         run: |
           echo ${{ needs.setup.outputs.output1 }}
+
+      - name: List with all changed files
+        run: |
+          echo ${{ output1.value }}
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v2
