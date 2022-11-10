@@ -11,7 +11,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      output1: ${{ steps.step1.outputs.value }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,9 +31,9 @@ jobs:
           dir_names: "true"
           
       - name: List with all changed files
-        id: matrix
+        id: step1
         run: |
-          echo "matrix=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+          echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
       - name: List directories
         run: |
@@ -41,7 +41,7 @@ jobs:
 
       - name: List from output
         run: |
-          echo ${{ env.matrix }}
+          echo ${{ env.value }}
 
 
 
@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: List with all changed files
         run: |
-          echo ${{ matrix.file }}
+          echo ${{ needs.setup.outputs.output1 }}
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v2
