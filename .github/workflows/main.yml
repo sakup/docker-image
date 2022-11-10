@@ -44,7 +44,7 @@ jobs:
 
       - name: Get tag for image
         run: |
-          echo "TAG = $(cat ${{ matrix.file }}/Dockerfile | grep "TAG" | sed 's/.*=//'")" >> $GITHUB_OUTPUT
+          echo "TAG = $(cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'")" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
