@@ -18,18 +18,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Get changed files
-      #   id: changed-files
-      #   uses: tj-actions/changed-files@v34
-      #   with:
-      #     json: "true"
-
-      - name: Get directories
-        id: directories
+      - name: Get changed files
+        id: changed-files
         uses: tj-actions/changed-files@v34
         with:
           json: "true"
           dir_names: "true"
+
+      # - name: Get directories
+      #   id: directories
+      #   uses: tj-actions/changed-files@v34
+      #   with:
+      #     json: "true"
+      #     dir_names: "true"
           
       - name: List with all changed files
         id: step1
