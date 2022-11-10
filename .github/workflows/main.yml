@@ -61,4 +61,4 @@ jobs:
           # context: .          
           file: /${{ matrix.file }}/Dockerfile
           push: true
-          tags: sakup/${{ matrix.file }}:124
+          tags: sakup/${{ matrix.file }}:latest
