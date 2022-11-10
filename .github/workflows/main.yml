@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - "master"
-    # paths:
-    #   - '!.github/**'
+    paths:
+      - '!.github/**'
 
 jobs:
   setup:
@@ -42,9 +42,9 @@ jobs:
         run: |
           echo ${{ needs.setup.outputs.output1 }}
 
-      - name: List from matrix
+      - name: Get tag for image
         run: |
-          echo ${{ matrix.file }}
+          echo "TAG = $(cat ${{ matrix.file }}/Dockerfile | grep "tag" | sed 's/.*=//'")" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -61,4 +61,6 @@ jobs:
           # context: .          
           file: /${{ matrix.file }}/Dockerfile
           push: true
-          tags: sakup/${{ matrix.file }}:latest
+          tags: |
+            sakup/${{ matrix.file }}:env.TAG
+            sakup/${{ matrix.file }}:latest
