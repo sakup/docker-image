@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - "master"
-    # paths:
-    #   - '!.github/**'
+    paths:
+      - '!.github/**'
 
 jobs:
   setup:
@@ -61,4 +61,4 @@ jobs:
           # context: .          
           file: /${{ matrix.file }}/Dockerfile
           push: true
-          tags: sakup/alpine:123
+          tags: sakup/${{ matrix.file }}:124
