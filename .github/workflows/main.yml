@@ -21,6 +21,8 @@ jobs:
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v34
+        with:
+          json: "true"
 
       - name: Get directories
         id: directories
@@ -37,13 +39,18 @@ jobs:
         run: |
           echo ${{ steps.directories.outputs.all_changed_files }} 
 
+      - name: List from output
+        run: |
+          echo ${{ steps.matrix.outputs }}
+
+
 
   build:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ needs.setup.outputs.matrix }}
+        file: ${{fromJson(needs.setup.outputs.matrix)}}
     steps:
       - name: List with all changed files
         run: |
