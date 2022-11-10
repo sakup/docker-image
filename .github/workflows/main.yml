@@ -37,14 +37,10 @@ jobs:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
 
-    steps:
-      - name: List with all changed files
-        run: |
-          echo ${{ needs.setup.outputs.output1 }}
-
       - name: Get tag for image
+        id: tag
         run: |
-          echo "TAG = $(cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//')" >> $GITHUB_OUTPUT
+          echo "value = $(cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//')" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -62,5 +58,5 @@ jobs:
           file: /${{ matrix.file }}/Dockerfile
           push: true
           tags: |
-            sakup/${{ matrix.file }}:${{env.TAG}}
+            sakup/${{ matrix.file }}:${{ steps.tag.outputs.value }}
             sakup/${{ matrix.file }}:latest
