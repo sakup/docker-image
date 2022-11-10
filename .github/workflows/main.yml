@@ -38,10 +38,20 @@ jobs:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
     steps:
+      - name: Read file contents
+        id: read_file
+        uses: andstor/file-reader-action@v1
+        with:
+          path: "${{ matrix.file }}/Dockerfile"
+
+      # - name: File contents
+      #   run: echo "${ steps.read_file.outputs.contents }"
+
+
       - name: Get tag for image
         id: tag
         run: |
-          echo "value = $(cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//')" >> $GITHUB_OUTPUT
+          echo "value = ${ steps.read_file.outputs.contents } | grep 'TAG' | sed 's/.*=//')" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
