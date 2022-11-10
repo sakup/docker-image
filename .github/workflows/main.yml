@@ -30,14 +30,15 @@ jobs:
         run: |
           echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
+
   build:
-    if: ${{ matrix.file }} != ".github/workflows\"
+    if: "${{ matrix.file }} != '.github/workflows\'"
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
-
+    steps:
       - name: Get tag for image
         id: tag
         run: |
