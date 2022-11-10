@@ -58,7 +58,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3 
         with:
-          context: .          
+          # context: .          
           file: /${{ matrix.file }}/Dockerfile
           push: true
-          tags: sakup/${{ matrix.file }}:123
+          tags: sakup/alpine:123
