@@ -61,4 +61,4 @@ jobs:
           context: .          
           file: ${{ matrix.file }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.file }}:123
+          tags: sakup/${{ matrix.file }}:123
