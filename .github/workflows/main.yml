@@ -62,5 +62,5 @@ jobs:
           file: /${{ matrix.file }}/Dockerfile
           push: true
           tags: |
-            sakup/${{ matrix.file }}:env.TAG
+            sakup/${{ matrix.file }}:${{env.TAG}}
             sakup/${{ matrix.file }}:latest
