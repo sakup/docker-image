@@ -37,7 +37,6 @@ jobs:
     strategy:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
-    if: matrix.file != '.github/workflows\'
     steps:
       - name: Get tag for image
         id: tag
