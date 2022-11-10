@@ -47,17 +47,19 @@ jobs:
     needs: [ setup ]
     runs-on: ubuntu-latest
     strategy:
-      output1:
-        value: ${{fromJson(needs.setup.outputs.output1)}}
+       matrix:
+        version: [10, 12, 14]
+      # output1:
+      #   file: ${{fromJson(needs.setup.outputs.output1)}}
 
     steps:
       - name: List with all changed files
         run: |
           echo ${{ needs.setup.outputs.output1 }}
 
-      - name: List with all changed files
+      - name: List from matrix
         run: |
-          echo ${{ output1.value }}
+          echo ${{ matrix.version }}
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v2
