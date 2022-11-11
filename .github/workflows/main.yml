@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: PWD
         run: |
-          pwd && ls -la && cat alpine/Dockerfile
+          pwd && ls -la 
 
   #     - name: Read file contents
   #       id: read_file
