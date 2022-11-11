@@ -30,6 +30,9 @@ jobs:
         run: |
           echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
+      - name: PWD
+        run: |
+          echo pwd
 
   build:
     needs: [ setup ]
@@ -38,6 +41,10 @@ jobs:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
     steps:
+      - name: PWD
+        run: |
+          echo pwd
+
       - name: Read file contents
         id: read_file
         uses: andstor/file-reader-action@v1
