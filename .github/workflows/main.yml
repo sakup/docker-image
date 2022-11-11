@@ -41,6 +41,10 @@ jobs:
        matrix:
         file: ${{fromJson(needs.setup.outputs.output1)}}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: PWD
         run: |
           pwd && ls -la 
