@@ -32,7 +32,7 @@ jobs:
 
       - name: PWD
         run: |
-          echo pwd
+          pwd
 
   build:
     needs: [ setup ]
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: PWD
         run: |
-          echo pwd
+          pwd
 
       - name: Read file contents
         id: read_file
