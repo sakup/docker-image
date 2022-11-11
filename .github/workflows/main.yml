@@ -30,9 +30,9 @@ jobs:
         run: |
           echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
-      # - name: PWD
-      #   run: |
-      #     pwd && ls -la && cat alpine/Dockerfile
+      - name: PWD
+        run: |
+          pwd && ls -la && cat alpine/Dockerfile
 
   build:
     needs: [ setup ]
