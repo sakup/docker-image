@@ -32,7 +32,7 @@ jobs:
 
       - name: PWD
         run: |
-          pwd && ls -la
+          pwd && ls -la && cat alpine/Dockerfile
 
   # build:
   #   needs: [ setup ]
