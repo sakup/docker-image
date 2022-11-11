@@ -30,9 +30,9 @@ jobs:
         run: |
           echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
-      - name: PWD
-        run: |
-          pwd && ls -la && cat alpine/Dockerfile
+      # - name: PWD
+      #   run: |
+      #     pwd && ls -la && cat alpine/Dockerfile
 
   build:
     needs: [ setup ]
@@ -45,49 +45,49 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: PWD
-        run: |
-          pwd && ls -la && cat ${{ matrix.file }}/Dockerfile 
-
-      - name: PWD with grep
-        run: |
-          cat ${{ matrix.file }}/Dockerfile | grep 'TAG'
-
-
-      - name: PWD
-        run: |
-          cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'
-
-  #     - name: Read file contents
-  #       id: read_file
-  #       uses: andstor/file-reader-action@v1
-  #       with:
-  #         path: "${{ matrix.file }}/Dockerfile"
-
-  #     # - name: File contents
-  #     #   run: echo "${ steps.read_file.outputs.contents }"
-
-
-      # - name: Get tag for image
-      #   id: tag
+      # - name: PWD
       #   run: |
-      #     echo "value = ${ cat ${{ matrix.file }}/Dockerfile" | grep 'TAG' | sed 's/.*=//')}" >> $GITHUB_OUTPUT
+      #     pwd && ls -la && cat ${{ matrix.file }}/Dockerfile 
 
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v2
-  #       with:
-  #         username: ${{ secrets.DOCKER_HUB_USERNAME }}
-  #         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      # - name: PWD with grep
+      #   run: |
+      #     cat ${{ matrix.file }}/Dockerfile | grep 'TAG'
 
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v2
+
+      # - name: PWD
+      #   run: |
+      #     cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'
+
+      # - name: Read file contents
+      #   id: read_file
+      #   uses: andstor/file-reader-action@v1
+      #   with:
+      #     path: "${{ matrix.file }}/Dockerfile"
+
+      # - name: File contents
+      #   run: echo "${ steps.read_file.outputs.contents }"
+
+
+      - name: Get tag for image
+        id: tag
+        run: |
+          echo "value = ${ cat ${{ matrix.file }}/Dockerfile" | grep 'TAG' | sed 's/.*=//'}" >> $GITHUB_OUTPUT
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
         
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v3 
-  #       with:
-  #         # context: .          
-  #         file: /${{ matrix.file }}/Dockerfile
-  #         push: true
-  #         tags: |
-  #           sakup/${{ matrix.file }}:${{ steps.tag.outputs.value }}
-  #           sakup/${{ matrix.file }}:latest
+      - name: Build and push
+        uses: docker/build-push-action@v3 
+        with:
+          # context: .          
+          file: /${{ matrix.file }}/Dockerfile
+          push: true
+          tags: |
+            sakup/${{ matrix.file }}:${{ steps.tag.outputs.value }}
+            sakup/${{ matrix.file }}:latest
