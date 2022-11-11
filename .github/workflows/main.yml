@@ -47,7 +47,7 @@ jobs:
           fetch-depth: 0
       - name: PWD
         run: |
-          pwd && ls -la 
+          pwd && ls -la && cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//')
 
   #     - name: Read file contents
   #       id: read_file
@@ -59,10 +59,10 @@ jobs:
   #     #   run: echo "${ steps.read_file.outputs.contents }"
 
 
-      - name: Get tag for image
-        id: tag
-        run: |
-          echo "value = ${ cat ${{ matrix.file }}/Dockerfile" | grep 'TAG' | sed 's/.*=//')}" >> $GITHUB_OUTPUT
+      # - name: Get tag for image
+      #   id: tag
+      #   run: |
+      #     echo "value = ${ cat ${{ matrix.file }}/Dockerfile" | grep 'TAG' | sed 's/.*=//')}" >> $GITHUB_OUTPUT
 
   #     - name: Login to Docker Hub
   #       uses: docker/login-action@v2
