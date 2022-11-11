@@ -30,20 +30,20 @@ jobs:
         run: |
           echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
 
+      # - name: PWD
+      #   run: |
+      #     pwd && ls -la && cat alpine/Dockerfile
+
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    strategy:
+       matrix:
+        file: ${{fromJson(needs.setup.outputs.output1)}}
+    steps:
       - name: PWD
         run: |
           pwd && ls -la && cat alpine/Dockerfile
-
-  # build:
-  #   needs: [ setup ]
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #      matrix:
-  #       file: ${{fromJson(needs.setup.outputs.output1)}}
-  #   steps:
-  #     - name: PWD
-  #       run: |
-  #         pwd
 
   #     - name: Read file contents
   #       id: read_file
@@ -55,10 +55,10 @@ jobs:
   #     #   run: echo "${ steps.read_file.outputs.contents }"
 
 
-  #     - name: Get tag for image
-  #       id: tag
-  #       run: |
-  #         echo "value = ${ steps.read_file.outputs.contents } | grep 'TAG' | sed 's/.*=//')" >> $GITHUB_OUTPUT
+      - name: Get tag for image
+        id: tag
+        run: |
+          echo "value = ${ cat ${{ matrix.file }}/Dockerfile" | grep 'TAG' | sed 's/.*=//')}" >> $GITHUB_OUTPUT
 
   #     - name: Login to Docker Hub
   #       uses: docker/login-action@v2
