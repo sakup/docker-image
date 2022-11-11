@@ -47,7 +47,16 @@ jobs:
           fetch-depth: 0
       - name: PWD
         run: |
-          pwd && ls -la && cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//')
+          pwd && ls -la && cat ${{ matrix.file }}/Dockerfile 
+
+      - name: PWD with grep
+        run: |
+          cat ${{ matrix.file }}/Dockerfile | grep 'TAG'
+
+
+      - name: PWD
+        run: |
+          cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'
 
   #     - name: Read file contents
   #       id: read_file
