@@ -45,18 +45,23 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      # - name: PWD
-      #   run: |
-      #     pwd && ls -la && cat ${{ matrix.file }}/Dockerfile 
 
-      # - name: PWD with grep
-      #   run: |
-      #     cat ${{ matrix.file }}/Dockerfile | grep 'TAG'
+      - name: PWD
+        run: |
+          pwd && ls -la && cat ${{ matrix.file }}/Dockerfile 
+
+      - name: CAT with grep
+        run: |
+          cat ${{ matrix.file }}/Dockerfile | grep 'TAG'
 
 
-      # - name: PWD
-      #   run: |
-      #     cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'
+      - name: CAT with grep and sed
+        run: |
+          cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'
+
+      - name: echo cat
+        run: |
+          echo "cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//'"
 
       # - name: Read file contents
       #   id: read_file
