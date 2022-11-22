@@ -48,7 +48,6 @@ jobs:
 
       - name: grep and sed TAG
         run: |
-          echo grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'
           echo "======================================"
           echo "grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'""
           echo "======================================"
