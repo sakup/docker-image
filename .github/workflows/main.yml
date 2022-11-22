@@ -46,14 +46,14 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: CAT with grep and sed
-        id: grep
+      - name: grep and sed TAG
         run: |
-          echo cat ${{ matrix.file }}/Dockerfile | grep 'TAG' | sed 's/.*=//' >> $GITHUB_OUTPUT
+          grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'
+          echo "tag=${PIPESTATUS[1]}" >> $GITHUB_OUTPUT
 
-      # - name: echo cat
-      #   run: |
-      #     echo "value = " >> $GITHUB_OUTPUT
+      - name: echo tag
+        run: |
+          echo ${{ env.tag }}
 
       # - name: Read file contents
       #   id: read_file
