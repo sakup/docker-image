@@ -53,7 +53,7 @@ jobs:
 
       - name: echo tag
         run: |
-          echo ${{ env.tag }}
+          echo "${{ env.tag }}"
 
       # - name: Read file contents
       #   id: read_file
