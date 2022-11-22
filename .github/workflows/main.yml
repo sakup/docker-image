@@ -50,10 +50,12 @@ jobs:
         run: |
           grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'
           echo "tag=${PIPESTATUS[1]}" >> $GITHUB_ENV
+          echo "test=text for test" >> $GITHUB_ENV
 
       - name: echo tag
         run: |
           echo "${{ env.tag }}"
+          echo "${{ env.test }}"
 
       # - name: Read file contents
       #   id: read_file
