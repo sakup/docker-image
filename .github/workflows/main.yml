@@ -49,6 +49,10 @@ jobs:
       - name: grep and sed TAG
         run: |
           grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'
+          echo ${PIPESTATUS[0]}
+          echo ${PIPESTATUS[1]}
+          echo ${PIPESTATUS[@]}
+          echo "======================================"
           echo "tag=${PIPESTATUS[0]}" >> $GITHUB_ENV
           echo "test=text for test" >> $GITHUB_ENV
 
