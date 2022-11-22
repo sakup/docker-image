@@ -48,8 +48,8 @@ jobs:
 
       - name: grep and sed TAG
         run: |
-          echo "tag=${grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'}" >> $GITHUB_ENV
-          echo "======================================"
+          value=`grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'`
+          echo "tag=$value" >> $GITHUB_ENV
           echo "test=text for test" >> $GITHUB_ENV
 
       - name: echo tag
