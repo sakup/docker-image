@@ -5,7 +5,7 @@ on:
     branches:
       - "ghcr"
     paths-ignore:
-      - ".github/**"
+      - '.github/**'
 
 env:
   REGISTRY: ghcr.io
@@ -75,5 +75,5 @@ jobs:
           file: /${{ matrix.file }}/Dockerfile
           push: true
           tags: |
-            ${{env.IMAGE_NAME}}/${{ matrix.file }}:${{ env.tag }}
-            ${{env.IMAGE_NAME}}/${{ matrix.file }}:latest
+            ${{ env.REGISTRY }}/${{env.IMAGE_NAME}}/${{ matrix.file }}:${{ env.tag }}
+            ${{ env.REGISTRY }}/${{env.IMAGE_NAME}}/${{ matrix.file }}:latest
