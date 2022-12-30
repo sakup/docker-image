@@ -5,7 +5,7 @@ on:
     branches:
       - "ghcr"
     paths-ignore:
-      - '.github/**'
+      - ".github/**"
 
 env:
   REGISTRY: ghcr.io
