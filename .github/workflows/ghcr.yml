@@ -1,0 +1,82 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "ghcr"
+    paths-ignore:
+      - '.github/**'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+
+jobs:
+  # Job is looking for changes and store them in output for build job
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.value }}
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Get names of directories with changes
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v34
+        with:
+          json: "true"
+          dir_names: "true"
+          
+      # Stores list of changed directories for the next job in GITHUB_OUTPUT 
+      - name: List with all changed files
+        id: step1
+        run: |
+          echo "value=${{ steps.changed-files.outputs.all_changed_files }}" >> $GITHUB_OUTPUT
+  # Job takes data from setup output, build and push docker images to docker hub
+  build:
+    needs: [ setup ]
+    runs-on: ubuntu-latest
+    # List of changed files from previous job to build docker images
+    strategy:
+       matrix:
+        file: ${{fromJson(needs.setup.outputs.output1)}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+        # Looks for "ARG TAG" in Dockerfile, parse it and store in GITHUB_ENV variable
+      - name: grep and sed TAG
+        run: |
+          value=`grep 'TAG' ${{ matrix.file }}/Dockerfile | sed 's/.*=//'`
+          echo "tag=$value" >> $GITHUB_ENV
+      - name: echo tag
+        run: |
+          echo "${{ env.tag }}"
+          
+      - name: Login to thr Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Build and push
+        uses: docker/build-push-action@v3 
+        with:
+          file: /${{ matrix.file }}/Dockerfile
+          push: true
+          tags: |
+            sakup/${{env.IMAGE_NAME}}/${{ matrix.file }}:${{ env.tag }}
+            sakup/${{env.IMAGE_NAME}}/${{ matrix.file }}:latest
